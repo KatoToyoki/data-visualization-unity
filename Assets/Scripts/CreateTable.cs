@@ -1,82 +1,183 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using System.IO;
 
-public class CreateTable : MonoBehaviour
+public class CreateTable2 : MonoBehaviour
 {
-    void Start()
+    private const double INTERVAL = 0.5;
+    private const float WIDTH = 0.1f;
+    private const float HEIGHT = 5f;
+    public int _teamMemberCount { get; set; }
+    public int _timeInterval { get; set; }
+    private void Start()
     {
-        // Create a World Space Canvas for UI elements
-        GameObject canvasObject = new GameObject("Canvas");
-        Canvas canvas = canvasObject.AddComponent<Canvas>();
-        canvas.renderMode = RenderMode.WorldSpace;
-        CanvasScaler canvasScaler = canvasObject.AddComponent<CanvasScaler>();
-        canvasScaler.dynamicPixelsPerUnit = 10;  // Increase the pixels per unit to make UI elements larger
-        canvasObject.AddComponent<GraphicRaycaster>();
-
-        // Set the canvas position in front of the camera
-        // Considering the camera is at (0, 0, -10) looking towards the origin
-        canvasObject.transform.position = new Vector3(0, 0, 0); // Positioned at the origin
-        canvasObject.transform.rotation = Quaternion.identity;
-
-        // Example data
-        string[] columnNames = { "Name", "Age", "Score" };
-        string[] rowData = { "John", "25", "80" };
-
-        // Create the table header
-        CreateRow(canvas.transform, new Vector3(0, 0.5f, 0), columnNames, true);  // Position slightly above the origin
-
-        // Create the table rows
-        CreateRow(canvas.transform, new Vector3(0, 0, 0), rowData);  // Position at the origin
+        _teamMemberCount = GetJsonFilesCount();
+        CreateQuadRow(5);
+        CreateRow2(5);
+        CreateRow3(5);
+        CreateRow4(5);
+        CreateRow5(5);
+        CreateRow6(5);
     }
 
-
-    void CreateRow(Transform parent, Vector3 position, string[] rowData, bool isHeader = false)
+    private int GetJsonFilesCount()
     {
-        // Create a new row (horizontal layout group)
-        GameObject rowObject = new GameObject("Row", typeof(RectTransform));
-        rowObject.transform.SetParent(parent);
-
-        RectTransform rectTransform = rowObject.GetComponent<RectTransform>();
-        rectTransform.localPosition = position;
-
-        HorizontalLayoutGroup layoutGroup = rowObject.AddComponent<HorizontalLayoutGroup>();
-        layoutGroup.childForceExpandWidth = false;
-        layoutGroup.childForceExpandHeight = false;
-
-        // Create cells in the row
-        foreach (var data in rowData)
-        {
-            CreateCell(rowObject.transform, data, isHeader);
-        }
-    }
-    void CreateCell(Transform parent, string cellData, bool isHeader)
-    {
-        // Create a Text component for the cell
-        GameObject cellObject = new GameObject("Cell", typeof(RectTransform));
-        cellObject.transform.SetParent(parent);
-
-        Text cellText = cellObject.AddComponent<Text>();
-        cellText.text = cellData;
-        cellText.alignment = TextAnchor.MiddleCenter;
-        cellText.color = Color.black; // Set a color that stands out
-
-        // Ensure a default font is set, Unity usually has a default Arial font
-        cellText.font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-
-        // Customize cell appearance based on whether it's a header
-        if (isHeader)
-        {
-            cellText.fontStyle = FontStyle.Bold;
-            cellText.fontSize = 14; // Example size
-        }
-        else
-        {
-            cellText.fontSize = 12; // Example size
-        }
-
-        // Set the size of the RectTransform
-        RectTransform rect = cellText.GetComponent<RectTransform>();
-        rect.sizeDelta = new Vector2(100, 50); // Example width and height
+        string folderPath = "Assets/json";
+        int fileCount = Directory.GetFiles(folderPath, "*.json").Length;
+        return fileCount;
     }
 
+    // [student] - task
+    private void CreateQuadRow(int numberOfQuads)
+    {
+        Vector3 position = new Vector3(5, 0, 5);
+        Vector3 localPosition = new Vector3(0, 0, 0);
+        Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
+
+        GameObject rowObject = new GameObject("QuadRow");
+        rowObject.transform.parent = transform;
+
+        for (int i = 0; i < numberOfQuads; i++)
+        {
+            position.x = (float)((i * (INTERVAL)));
+            CreateQuad(position, localPosition, rotation, rowObject.transform);
+        }
+    }
+
+    // [time] - student
+    private void CreateRow2(int numberOfQuads)
+    {
+        Vector3 position = new Vector3(0, 0, 0);
+        Vector3 localPosition = new Vector3(0, 0, 5);
+        Quaternion rotation = Quaternion.Euler(90f, 0f, -90f);
+
+        GameObject rowObject = new GameObject("QuadRow");
+        rowObject.transform.parent = transform;
+
+        for (int i = 0; i < numberOfQuads; i++)
+        {
+            position.x = (float)((i * (INTERVAL)));
+            CreateQuad(position, localPosition, rotation, rowObject.transform);
+        }
+    }
+
+    // student - [task] 
+    private void CreateRow3(int numberOfQuads)
+    {
+        Vector3 position = new Vector3(5, 0, 0);
+        Vector3 localPosition = new Vector3(0, 5, 5);
+        Quaternion rotation = Quaternion.Euler(0f, 0f, -90f);
+
+        GameObject rowObject = new GameObject("QuadRow");
+        rowObject.transform.parent = transform;
+
+        for (int i = 0; i < numberOfQuads; i++)
+        {
+            position.x = (float)((i * (INTERVAL)));
+            CreateQuad(position, localPosition, rotation, rowObject.transform);
+        }
+    }
+
+    // [task] - time
+    private void CreateRow4(int numberOfQuads)
+    {
+        Vector3 position = new Vector3(0, 0, 0);
+        Vector3 localPosition = new Vector3(0, 5, 0);
+        Quaternion rotation = Quaternion.Euler(0f, -90f, -90f);
+
+        GameObject rowObject = new GameObject("QuadRow");
+        rowObject.transform.parent = transform;
+
+        for (int i = 0; i < numberOfQuads; i++)
+        {
+            position.x = (float)((i * (INTERVAL)));
+            CreateQuad(position, localPosition, rotation, rowObject.transform);
+        }
+    }
+
+    // [student] - time
+    private void CreateRow5(int numberOfQuads)
+    {
+        Vector3 position = new Vector3(0, 0, 0);
+        Vector3 localPosition = new Vector3(0, 0, 0);
+        Quaternion rotation = Quaternion.Euler(90f, -90f, -90f);
+
+        GameObject rowObject = new GameObject("QuadRow");
+        rowObject.transform.parent = transform;
+
+        for (int i = 0; i < numberOfQuads; i++)
+        {
+            position.x = (float)((i * (INTERVAL)));
+            CreateQuad(position, localPosition, rotation, rowObject.transform);
+        }
+    }
+
+    // [time] - task
+    private void CreateRow6(int numberOfQuads)
+    {
+        Vector3 position = new Vector3(0, 0, 0);
+        Vector3 localPosition = new Vector3(0, 0, 0);
+        Quaternion rotation = Quaternion.Euler(0f, -90f, 0f);
+
+        GameObject rowObject = new GameObject("QuadRow");
+        rowObject.transform.parent = transform;
+
+        for (int i = 0; i < numberOfQuads; i++)
+        {
+            position.x = (float)((i * (INTERVAL)));
+            CreateQuad(position, localPosition, rotation, rowObject.transform);
+        }
+    }
+    private void CreateQuad(Vector3 position, Vector3 localPosition, Quaternion rotation, Transform parentTransform)
+    {
+        GameObject quadObject = new GameObject("Quad");
+        quadObject.transform.parent = parentTransform;
+
+        quadObject.transform.localPosition = localPosition;
+        quadObject.transform.localRotation = rotation;
+
+        MeshRenderer meshRenderer = quadObject.AddComponent<MeshRenderer>();
+        meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
+
+        MeshFilter meshFilter = quadObject.AddComponent<MeshFilter>();
+
+        Mesh mesh = new Mesh();
+
+        Vector3[] vertices = new Vector3[4]
+        {
+            new Vector3(position.x, position.y, position.z),
+            new Vector3(position.x + WIDTH, position.y, position.z),
+            new Vector3(position.x, HEIGHT, position.z),
+            new Vector3(position.x + WIDTH, HEIGHT, position.z)
+        };
+        mesh.vertices = vertices;
+
+        int[] tris = new int[6]
+        {
+            0, 2, 1,
+            2, 3, 1
+        };
+        mesh.triangles = tris;
+
+        Vector3[] normals = new Vector3[4]
+        {
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward,
+            -Vector3.forward
+        };
+        mesh.normals = normals;
+
+        Vector2[] uv = new Vector2[4]
+        {
+            new Vector2(0, 0),
+            new Vector2(1, 0),
+            new Vector2(0, 1),
+            new Vector2(1, 1)
+        };
+        mesh.uv = uv;
+
+        meshFilter.mesh = mesh;
+    }
 }
