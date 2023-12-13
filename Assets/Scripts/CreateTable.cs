@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
+using TMPro;
 
 public class CreateTable2 : MonoBehaviour
 {
@@ -10,6 +12,7 @@ public class CreateTable2 : MonoBehaviour
     private const float HEIGHT = 5f;
     public int _teamMemberCount { get; set; }
     public int _timeInterval { get; set; }
+
     private void Start()
     {
         _teamMemberCount = GetJsonFilesCount();
@@ -19,6 +22,16 @@ public class CreateTable2 : MonoBehaviour
         CreateRow4(5);
         CreateRow5(5);
         CreateRow6(5);
+
+        CreateTextMeshProObject("110590015", 3, Color.white, new Vector3(0.85f, 0, 3.15f));
+
+        CreateTextMeshProObject("110590017", 3, Color.white, new Vector3(1.35f, 0, 3.15f));
+
+
+        CreateTextMeshProObject("task47", 3, Color.white, new Vector3(0f, 4.1f, 3.76f));
+
+
+        CreateTextMeshProObject("1", 3, Color.white, new Vector3(0.1f, 5f, 5.45f));
     }
 
     private int GetJsonFilesCount()
@@ -180,4 +193,27 @@ public class CreateTable2 : MonoBehaviour
 
         meshFilter.mesh = mesh;
     }
+
+    void CreateTextMeshProObject(string text, float fontSize, Color color, Vector3 position)
+    {
+        GameObject textMeshProObject = new GameObject("TextMeshProObject");
+        textMeshProObject.transform.position = position;
+
+        TextMeshPro textMeshProComponent = textMeshProObject.AddComponent<TextMeshPro>();
+
+        textMeshProComponent.text = text;
+        textMeshProComponent.fontSize = fontSize;
+        textMeshProComponent.color = color;
+
+        // student
+        // textMeshProObject.transform.rotation = Quaternion.Euler(90f, 0f, 90f);
+
+        // task, time
+        textMeshProObject.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+
+        textMeshProComponent.rectTransform.sizeDelta = new Vector2(10f, 1f);
+
+        textMeshProObject.AddComponent<GraphicRaycaster>();
+    }
+
 }
