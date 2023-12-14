@@ -21,6 +21,8 @@ public class Users
         GetUsersData();
         SetTasks();
         SetTime();
+        GetAllMaxTask();
+        GetUserSphere();
     }
 
     /// <summary>
@@ -109,7 +111,7 @@ public class Users
     public void SetTime()
     {
         _time.Add("");
-        for (int i = 1; i < 6; i++)
+        for (int i = 1; i < 10; i++)
         {
             _time.Add(i.ToString());
         }
@@ -122,5 +124,32 @@ public class Users
     public List<string> CreateEmptyList()
     {
         return new List<string>();
+    }
+
+    /// <summary>
+    /// set all max tasks instances with all users
+    /// </summary>
+    public void GetAllMaxTask()
+    {
+        foreach (User user in _users)
+        {
+            user.GetMaxTask();
+        }
+    }
+
+    /// <summary>
+    /// set all sphere with all users
+    /// </summary>
+    public void GetUserSphere()
+    {
+        foreach (User user in _users)
+        {
+            Vector3 position = new Vector3(0f, 0f, 0f);
+            position.x = _names.IndexOf(user._name) * 0.5f;
+            position.y = _tasks.IndexOf(user._maxTaskName) * 0.5f;
+            position.z = _time.IndexOf(((int)(user._maxTaskTime.TotalMinutes)).ToString()) * 0.5f;
+
+            user.CreateSphere(position, user._name);
+        }
     }
 }
