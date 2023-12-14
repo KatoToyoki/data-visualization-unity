@@ -12,29 +12,16 @@ public class CreateTable : MonoBehaviour
     private const float HEIGHT = 5f;
     public int _teamMemberCount { get; set; }
     public int _timeInterval { get; set; }
+    public Users _users { get; set; } = new Users();
 
     private void Start()
     {
-        _teamMemberCount = GetJsonFilesCount();
         CreateQuadRow(5);
         CreateRow2(5);
         CreateRow3(5);
         CreateRow4(5);
         CreateRow5(5);
         CreateRow6(5);
-
-        // ReadJson();
-        Users _users = new Users();
-        _users.ReadJson();
-    }
-
-
-
-    private int GetJsonFilesCount()
-    {
-        string folderPath = "Assets/Resources/users";
-        int fileCount = Directory.GetFiles(folderPath, "*.json").Length;
-        return fileCount;
     }
 
     // [student] - task
@@ -44,7 +31,7 @@ public class CreateTable : MonoBehaviour
         Vector3 localPosition = new Vector3(0, 0, 0);
         Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
 
-        GameObject rowObject = new GameObject("QuadRow");
+        GameObject rowObject = new GameObject("[student] - task");
         rowObject.transform.parent = transform;
 
         for (int i = 0; i < numberOfQuads; i++)
@@ -61,7 +48,7 @@ public class CreateTable : MonoBehaviour
         Vector3 localPosition = new Vector3(5, 0, 0);
         Quaternion rotation = Quaternion.Euler(90f, -90f, 0f);
 
-        GameObject rowObject = new GameObject("QuadRow");
+        GameObject rowObject = new GameObject("[time] - student");
         rowObject.transform.parent = transform;
 
         for (int i = 0; i < numberOfQuads; i++)
@@ -78,7 +65,7 @@ public class CreateTable : MonoBehaviour
         Vector3 localPosition = new Vector3(0, 5, 5);
         Quaternion rotation = Quaternion.Euler(0f, 0f, -90f);
 
-        GameObject rowObject = new GameObject("QuadRow");
+        GameObject rowObject = new GameObject("[task] - student");
         rowObject.transform.parent = transform;
 
         for (int i = 0; i < numberOfQuads; i++)
@@ -95,7 +82,7 @@ public class CreateTable : MonoBehaviour
         Vector3 localPosition = new Vector3(0, 5, 0);
         Quaternion rotation = Quaternion.Euler(0f, -90f, -90f);
 
-        GameObject rowObject = new GameObject("QuadRow");
+        GameObject rowObject = new GameObject("[task] - time");
         rowObject.transform.parent = transform;
 
         for (int i = 0; i < numberOfQuads; i++)
@@ -113,7 +100,7 @@ public class CreateTable : MonoBehaviour
         Vector3 localPosition = new Vector3(0, 0, 0);
         Quaternion rotation = Quaternion.Euler(90f, -90f, -90f);
 
-        GameObject rowObject = new GameObject("QuadRow");
+        GameObject rowObject = new GameObject("[student] - time");
         rowObject.transform.parent = transform;
 
         for (int i = 0; i < numberOfQuads; i++)
@@ -131,7 +118,7 @@ public class CreateTable : MonoBehaviour
         Vector3 localPosition = new Vector3(0, 0, 0);
         Quaternion rotation = Quaternion.Euler(0f, -90f, 0f);
 
-        GameObject rowObject = new GameObject("QuadRow");
+        GameObject rowObject = new GameObject("[time] - task");
         rowObject.transform.parent = transform;
 
         for (int i = 0; i < numberOfQuads; i++)
