@@ -28,18 +28,34 @@ public class Side
         Debug.Log(result);
     }
 
+    /// <summary>
+    /// set side property
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="rotation"></param>
     public void SetSideProperty(string name, Quaternion rotation)
     {
         _name = name;
         _sideRotation = rotation;
     }
 
+    /// <summary>
+    /// set line property 
+    /// </summary>
+    /// <param name="lineStartPosition"></param>
+    /// <param name="lineLocalPosition"></param>
     public void SetLineProperty(Vector3 lineStartPosition, Vector3 lineLocalPosition)
     {
         _lineStartPosition = lineStartPosition;
         _lineLocalPosition = lineLocalPosition;
     }
 
+    /// <summary>
+    /// set text property
+    /// </summary>
+    /// <param name="textStartPosition"></param>
+    /// <param name="textRotation"></param>
+    /// <param name="textDirection"></param>
     public void SetTextProperty(Vector3? textStartPosition, Quaternion? textRotation, char textDirection)
     {
         _textStartPosition = textStartPosition;
@@ -47,6 +63,12 @@ public class Side
         _textDirection = textDirection;
     }
 
+    /// <summary>
+    /// create side depends on the property
+    /// </summary>
+    /// <param name="quantity"></param>
+    /// <param name="parentTransform"></param>
+    /// <param name="texts"></param>
     public void CreateSide(int quantity, Transform parentTransform, List<string> texts)
     {
         GameObject rowObject = new GameObject(_name);
@@ -83,7 +105,13 @@ public class Side
         }
     }
 
-
+    /// <summary>
+    /// create a quad
+    /// </summary>
+    /// <param name="position"></param>
+    /// <param name="localPosition"></param>
+    /// <param name="rotation"></param>
+    /// <param name="parentTransform"></param>
     private void CreateQuad(Vector3 position, Vector3 localPosition, Quaternion rotation, Transform parentTransform)
     {
         GameObject quadObject = new GameObject("Quad");
@@ -136,6 +164,13 @@ public class Side
         meshFilter.mesh = mesh;
     }
 
+    /// <summary>
+    /// create text
+    /// </summary>
+    /// <param name="text"></param>
+    /// <param name="position"></param>
+    /// <param name="rotation"></param>
+    /// <param name="parentTransform"></param>
     void CreateTextMeshProObject(string text, Vector3 position, Quaternion rotation, Transform parentTransform)
     {
         if (text == null)

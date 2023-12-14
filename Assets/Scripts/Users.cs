@@ -7,7 +7,9 @@ using UnityEngine;
 public class Users
 {
     public string FOLDER_PATH = "Assets/Resources/users";
-    public string[] _fileNames { get; set; }
+    public List<string> _names { get; set; }
+    public List<string> _time { get; set; } = new List<string>();
+    public List<string> _tasks { get; set; } = new List<string>();
     public List<User> _users { get; set; } = new List<User>();
 
     /// <summary>
@@ -17,6 +19,8 @@ public class Users
     {
         GetFilesName();
         GetUsersData();
+        SetTasks();
+        SetTime();
     }
 
     /// <summary>
@@ -60,10 +64,13 @@ public class Users
             return;
         }
 
-        _fileNames = Directory.GetFiles(FOLDER_PATH)
+        _names = Directory.GetFiles(FOLDER_PATH)
             .Where(file => !file.EndsWith(".meta"))
             .Select(file => Path.GetFileNameWithoutExtension(file))
-            .ToArray();
+            .ToList();
+
+        _names.Insert(0, "");
+        _names.Add("");
     }
 
     /// <summary>
@@ -71,9 +78,49 @@ public class Users
     /// </summary>
     public void GetUsersData()
     {
-        foreach (string user in _fileNames)
+        foreach (string user in _names)
         {
             ReadJson(user);
         }
+    }
+
+    /// <summary>
+    /// to put distinct task inside container
+    /// </summary>
+    public void SetTasks()
+    {
+        foreach (User user in _users)
+        {
+            foreach (TaskInfo info in user.themeModelDataItems)
+            {
+                if (!_tasks.Contains(info.MissionExhibitName))
+                {
+                    _tasks.Add(info.MissionExhibitName);
+                }
+            }
+        }
+
+        _tasks.Insert(0, "");
+    }
+
+    /// <summary>
+    /// to put time inside container
+    /// </summary>
+    public void SetTime()
+    {
+        _time.Add("");
+        for (int i = 1; i < 6; i++)
+        {
+            _time.Add(i.ToString());
+        }
+    }
+
+    /// <summary>
+    /// return a empty List
+    /// </summary>
+    /// <returns></returns>
+    public List<string> CreateEmptyList()
+    {
+        return new List<string>();
     }
 }

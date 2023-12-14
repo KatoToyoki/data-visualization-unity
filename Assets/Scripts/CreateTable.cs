@@ -7,11 +7,6 @@ using TMPro;
 
 public class CreateTable : MonoBehaviour
 {
-    private const double INTERVAL = 0.5;
-    private const float WIDTH = 0.1f;
-    private const float HEIGHT = 5f;
-    public int _teamMemberCount { get; set; }
-    public int _timeInterval { get; set; }
     public Users _users { get; set; }
 
     public Side _student_task { get; set; } = new Side();
@@ -20,7 +15,6 @@ public class CreateTable : MonoBehaviour
     public Side _time_student { get; set; } = new Side();
     public Side _task_student { get; set; } = new Side();
     public Side _task_time { get; set; } = new Side();
-    // public Sides _sides { get; set; }
 
     private void Start()
     {
@@ -29,19 +23,18 @@ public class CreateTable : MonoBehaviour
         SetUpSixSizes();
         GameObject container = new GameObject("Container");
         container.transform.parent = transform;
-        List<string> test = new List<string>();
-        for (int i = 0; i < 5; i++)
-        {
-            test.Add("110590015");
-        }
-        _student_task.CreateSide(5, container.transform, test);
-        _student_time.CreateSide(5, container.transform, test);
-        _time_task.CreateSide(5, container.transform, test);
-        _time_student.CreateSide(5, container.transform, test);
-        _task_student.CreateSide(5, container.transform, test);
-        _task_time.CreateSide(5, container.transform, test);
+
+        _student_task.CreateSide(_users._names.Count, container.transform, _users.CreateEmptyList());
+        _student_time.CreateSide(_users._names.Count, container.transform, _users._names);
+        _time_task.CreateSide(_users._time.Count, container.transform, _users._time);
+        _time_student.CreateSide(_users._time.Count, container.transform, _users.CreateEmptyList());
+        _task_student.CreateSide(_users._tasks.Count, container.transform, _users.CreateEmptyList());
+        _task_time.CreateSide(_users._tasks.Count, container.transform, _users._tasks);
     }
 
+    /// <summary>
+    /// initialize 6 sides
+    /// </summary>
     public void SetUpSixSizes()
     {
         // [student] - task
@@ -74,5 +67,4 @@ public class CreateTable : MonoBehaviour
         _task_time.SetLineProperty(new Vector3(0, 0, 0), new Vector3(0, 5, 0));
         _task_time.SetTextProperty(new Vector3(0.08f, 4.95f, -1.97f), Quaternion.Euler(0f, -90f, 0f), 'y');
     }
-
 }
