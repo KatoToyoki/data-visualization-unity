@@ -28,5 +28,4 @@ public class User
     public TaskInfo[] themeModelDataItems;
     public double _maxTaskTime { get; set; }
     public string _maxTaskName { get; set; }
-
 }

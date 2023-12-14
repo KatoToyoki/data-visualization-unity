@@ -12,200 +12,67 @@ public class CreateTable : MonoBehaviour
     private const float HEIGHT = 5f;
     public int _teamMemberCount { get; set; }
     public int _timeInterval { get; set; }
-    public Users _users { get; set; } = new Users();
+    public Users _users { get; set; }
+
+    public Side _student_task { get; set; } = new Side();
+    public Side _student_time { get; set; } = new Side();
+    public Side _time_task { get; set; } = new Side();
+    public Side _time_student { get; set; } = new Side();
+    public Side _task_student { get; set; } = new Side();
+    public Side _task_time { get; set; } = new Side();
+    // public Sides _sides { get; set; }
 
     private void Start()
     {
-        CreateQuadRow(5);
-        CreateRow2(5);
-        CreateRow3(5);
-        CreateRow4(5);
-        CreateRow5(5);
-        CreateRow6(5);
-    }
+        _users = new Users();
 
-    // [student] - task
-    private void CreateQuadRow(int numberOfQuads)
-    {
-        Vector3 position = new Vector3(5, 0, 5);
-        Vector3 localPosition = new Vector3(0, 0, 0);
-        Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
-
-        GameObject rowObject = new GameObject("[student] - task");
-        rowObject.transform.parent = transform;
-
-        for (int i = 0; i < numberOfQuads; i++)
+        SetUpSixSizes();
+        GameObject container = new GameObject("Container");
+        container.transform.parent = transform;
+        List<string> test = new List<string>();
+        for (int i = 0; i < 5; i++)
         {
-            position.x = (float)((i * (INTERVAL)));
-            CreateQuad(position, localPosition, rotation, rowObject.transform);
+            test.Add("110590015");
         }
+        _student_task.CreateSide(5, container.transform, test);
+        _student_time.CreateSide(5, container.transform, test);
+        _time_task.CreateSide(5, container.transform, test);
+        _time_student.CreateSide(5, container.transform, test);
+        _task_student.CreateSide(5, container.transform, test);
+        _task_time.CreateSide(5, container.transform, test);
     }
 
-    // [time] - student
-    private void CreateRow2(int numberOfQuads)
+    public void SetUpSixSizes()
     {
-        Vector3 position = new Vector3(0, 0, 0);
-        Vector3 localPosition = new Vector3(5, 0, 0);
-        Quaternion rotation = Quaternion.Euler(90f, -90f, 0f);
+        // [student] - task
+        _student_task.SetSideProperty("[student] - task", Quaternion.Euler(0f, 0f, -90f));
+        _student_task.SetLineProperty(new Vector3(5, 0, 0), new Vector3(0, 5, 5));
+        _student_task.SetTextProperty(null, null, '\0');
 
-        GameObject rowObject = new GameObject("[time] - student");
-        rowObject.transform.parent = transform;
+        // [student] - time
+        _student_time.SetSideProperty("[student] - time", Quaternion.Euler(90f, -90f, -90f));
+        _student_time.SetLineProperty(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        _student_time.SetTextProperty(new Vector3(0.05f, 0, -1.87f), Quaternion.Euler(90f, 0f, 90f), 'x');
 
-        for (int i = 0; i < numberOfQuads; i++)
-        {
-            position.x = (float)((i * (INTERVAL)));
-            CreateQuad(position, localPosition, rotation, rowObject.transform);
-        }
-    }
+        // [time] - task
+        _time_task.SetSideProperty("[time] - task", Quaternion.Euler(0f, -90f, 0f));
+        _time_task.SetLineProperty(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+        _time_task.SetTextProperty(new Vector3(-0.03f, 5.44f, -1.36f), Quaternion.Euler(0f, -90f, 0f), 'z');
 
-    // student - [task] 
-    private void CreateRow3(int numberOfQuads)
-    {
-        Vector3 position = new Vector3(5, 0, 0);
-        Vector3 localPosition = new Vector3(0, 5, 5);
-        Quaternion rotation = Quaternion.Euler(0f, 0f, -90f);
+        // [time] - student
+        _time_student.SetSideProperty("[time] - student", Quaternion.Euler(90f, -90f, 0f));
+        _time_student.SetLineProperty(new Vector3(0, 0, 0), new Vector3(5, 0, 0));
+        _time_student.SetTextProperty(null, null, '\0');
 
-        GameObject rowObject = new GameObject("[task] - student");
-        rowObject.transform.parent = transform;
+        // [task]- student
+        _task_student.SetSideProperty("[task]- student", Quaternion.Euler(0f, 0f, 0f));
+        _task_student.SetLineProperty(new Vector3(5, 0, 5), new Vector3(0, 0, 0));
+        _task_student.SetTextProperty(null, null, '\0');
 
-        for (int i = 0; i < numberOfQuads; i++)
-        {
-            position.x = (float)((i * (INTERVAL)));
-            CreateQuad(position, localPosition, rotation, rowObject.transform);
-        }
-    }
-
-    // [task] - time
-    private void CreateRow4(int numberOfQuads)
-    {
-        Vector3 position = new Vector3(0, 0, 0);
-        Vector3 localPosition = new Vector3(0, 5, 0);
-        Quaternion rotation = Quaternion.Euler(0f, -90f, -90f);
-
-        GameObject rowObject = new GameObject("[task] - time");
-        rowObject.transform.parent = transform;
-
-        for (int i = 0; i < numberOfQuads; i++)
-        {
-            position.x = (float)((i * (INTERVAL)));
-            CreateQuad(position, localPosition, rotation, rowObject.transform);
-            CreateTextMeshProObject("task47", new Vector3(0.08f, (float)(4.95f - (i * (INTERVAL))), -1.97f), Quaternion.Euler(0f, -90f, 0f), rowObject.transform);
-        }
-    }
-
-    // [student] - time
-    private void CreateRow5(int numberOfQuads)
-    {
-        Vector3 position = new Vector3(0, 0, 0);
-        Vector3 localPosition = new Vector3(0, 0, 0);
-        Quaternion rotation = Quaternion.Euler(90f, -90f, -90f);
-
-        GameObject rowObject = new GameObject("[student] - time");
-        rowObject.transform.parent = transform;
-
-        for (int i = 0; i < numberOfQuads; i++)
-        {
-            position.x = (float)((i * (INTERVAL)));
-            CreateQuad(position, localPosition, rotation, rowObject.transform);
-            CreateTextMeshProObject("110590015", new Vector3((float)(0.05 + (i * (INTERVAL))), 0, -1.87f), Quaternion.Euler(90f, 0f, 90f), rowObject.transform);
-        }
-    }
-
-    // [time] - task
-    private void CreateRow6(int numberOfQuads)
-    {
-        Vector3 position = new Vector3(0, 0, 0);
-        Vector3 localPosition = new Vector3(0, 0, 0);
-        Quaternion rotation = Quaternion.Euler(0f, -90f, 0f);
-
-        GameObject rowObject = new GameObject("[time] - task");
-        rowObject.transform.parent = transform;
-
-        for (int i = 0; i < numberOfQuads; i++)
-        {
-            position.x = (float)((i * (INTERVAL)));
-            CreateQuad(position, localPosition, rotation, rowObject.transform);
-            CreateTextMeshProObject("1", new Vector3(-0.03f, 5.44f, (float)(-1.36f + (i * (INTERVAL)))), Quaternion.Euler(0f, -90f, 0f), rowObject.transform);
-        }
-    }
-    private void CreateQuad(Vector3 position, Vector3 localPosition, Quaternion rotation, Transform parentTransform)
-    {
-        GameObject quadObject = new GameObject("Quad");
-        quadObject.transform.parent = parentTransform;
-
-        quadObject.transform.localPosition = localPosition;
-        quadObject.transform.localRotation = rotation;
-
-        MeshRenderer meshRenderer = quadObject.AddComponent<MeshRenderer>();
-        meshRenderer.sharedMaterial = new Material(Shader.Find("Standard"));
-
-        MeshFilter meshFilter = quadObject.AddComponent<MeshFilter>();
-
-        Mesh mesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[4]
-        {
-            new Vector3(position.x, position.y, position.z),
-            new Vector3(position.x + WIDTH, position.y, position.z),
-            new Vector3(position.x, HEIGHT, position.z),
-            new Vector3(position.x + WIDTH, HEIGHT, position.z)
-        };
-        mesh.vertices = vertices;
-
-        int[] tris = new int[6]
-        {
-            0, 2, 1,
-            2, 3, 1
-        };
-        mesh.triangles = tris;
-
-        Vector3[] normals = new Vector3[4]
-        {
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward,
-            -Vector3.forward
-        };
-        mesh.normals = normals;
-
-        Vector2[] uv = new Vector2[4]
-        {
-            new Vector2(0, 0),
-            new Vector2(1, 0),
-            new Vector2(0, 1),
-            new Vector2(1, 1)
-        };
-        mesh.uv = uv;
-
-        meshFilter.mesh = mesh;
-    }
-
-    void CreateTextMeshProObject(string text, Vector3 position, Quaternion rotation, Transform parentTransform)
-    {
-        if (text == null)
-        {
-            return;
-        }
-
-        GameObject textMeshProObject = new GameObject("TextMeshProObject");
-        textMeshProObject.transform.parent = parentTransform;
-        textMeshProObject.transform.position = position;
-        Color color = Color.white;
-        float fontSize = 3f;
-
-        TextMeshPro textMeshProComponent = textMeshProObject.AddComponent<TextMeshPro>();
-
-        textMeshProComponent.text = text;
-        textMeshProComponent.fontSize = fontSize;
-        textMeshProComponent.color = color;
-
-        textMeshProComponent.alignment = TextAlignmentOptions.Right;
-
-        textMeshProObject.transform.rotation = rotation;
-
-        textMeshProComponent.rectTransform.sizeDelta = new Vector2(3f, 1f);
-
-        textMeshProObject.AddComponent<GraphicRaycaster>();
+        // [task] - time
+        _task_time.SetSideProperty("[task] - time", Quaternion.Euler(0f, -90f, -90f));
+        _task_time.SetLineProperty(new Vector3(0, 0, 0), new Vector3(0, 5, 0));
+        _task_time.SetTextProperty(new Vector3(0.08f, 4.95f, -1.97f), Quaternion.Euler(0f, -90f, 0f), 'y');
     }
 
 }
