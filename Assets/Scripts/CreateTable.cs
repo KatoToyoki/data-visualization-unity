@@ -22,16 +22,6 @@ public class CreateTable2 : MonoBehaviour
         CreateRow4(5);
         CreateRow5(5);
         CreateRow6(5);
-
-        CreateTextMeshProObject("110590015", 3, Color.white, new Vector3(0.85f, 0, 3.15f));
-
-        CreateTextMeshProObject("110590017", 3, Color.white, new Vector3(1.35f, 0, 3.15f));
-
-
-        CreateTextMeshProObject("task47", 3, Color.white, new Vector3(0f, 4.1f, 3.76f));
-
-
-        CreateTextMeshProObject("1", 3, Color.white, new Vector3(0.1f, 5f, 5.45f));
     }
 
     private int GetJsonFilesCount()
@@ -106,6 +96,7 @@ public class CreateTable2 : MonoBehaviour
         {
             position.x = (float)((i * (INTERVAL)));
             CreateQuad(position, localPosition, rotation, rowObject.transform);
+            CreateTextMeshProObject("task47", new Vector3(0.08f, (float)(4.95f - (i * (INTERVAL))), -1.97f), Quaternion.Euler(0f, -90f, 0f));
         }
     }
 
@@ -123,6 +114,7 @@ public class CreateTable2 : MonoBehaviour
         {
             position.x = (float)((i * (INTERVAL)));
             CreateQuad(position, localPosition, rotation, rowObject.transform);
+            CreateTextMeshProObject("110590015", new Vector3((float)(0.05 + (i * (INTERVAL))), 0, -1.87f), Quaternion.Euler(90f, 0f, 90f));
         }
     }
 
@@ -140,6 +132,7 @@ public class CreateTable2 : MonoBehaviour
         {
             position.x = (float)((i * (INTERVAL)));
             CreateQuad(position, localPosition, rotation, rowObject.transform);
+            CreateTextMeshProObject("1", new Vector3(-0.03f, 5.44f, (float)(-1.36f + (i * (INTERVAL)))), Quaternion.Euler(0f, -90f, 0f));
         }
     }
     private void CreateQuad(Vector3 position, Vector3 localPosition, Quaternion rotation, Transform parentTransform)
@@ -194,10 +187,17 @@ public class CreateTable2 : MonoBehaviour
         meshFilter.mesh = mesh;
     }
 
-    void CreateTextMeshProObject(string text, float fontSize, Color color, Vector3 position)
+    void CreateTextMeshProObject(string text, Vector3 position, Quaternion rotation)
     {
+        if (text == null)
+        {
+            return;
+        }
+
         GameObject textMeshProObject = new GameObject("TextMeshProObject");
         textMeshProObject.transform.position = position;
+        Color color = Color.white;
+        float fontSize = 3f;
 
         TextMeshPro textMeshProComponent = textMeshProObject.AddComponent<TextMeshPro>();
 
@@ -205,13 +205,11 @@ public class CreateTable2 : MonoBehaviour
         textMeshProComponent.fontSize = fontSize;
         textMeshProComponent.color = color;
 
-        // student
-        // textMeshProObject.transform.rotation = Quaternion.Euler(90f, 0f, 90f);
+        textMeshProComponent.alignment = TextAlignmentOptions.Right;
 
-        // task, time
-        textMeshProObject.transform.rotation = Quaternion.Euler(0f, -90f, 0f);
+        textMeshProObject.transform.rotation = rotation;
 
-        textMeshProComponent.rectTransform.sizeDelta = new Vector2(10f, 1f);
+        textMeshProComponent.rectTransform.sizeDelta = new Vector2(3f, 1f);
 
         textMeshProObject.AddComponent<GraphicRaycaster>();
     }
