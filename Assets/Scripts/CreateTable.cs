@@ -5,7 +5,7 @@ using System.IO;
 using UnityEngine.UI;
 using TMPro;
 
-public class CreateTable2 : MonoBehaviour
+public class CreateTable : MonoBehaviour
 {
     private const double INTERVAL = 0.5;
     private const float WIDTH = 0.1f;
@@ -22,11 +22,17 @@ public class CreateTable2 : MonoBehaviour
         CreateRow4(5);
         CreateRow5(5);
         CreateRow6(5);
+
+        // ReadJson();
+        Users _users = new Users();
+        _users.ReadJson();
     }
+
+
 
     private int GetJsonFilesCount()
     {
-        string folderPath = "Assets/json";
+        string folderPath = "Assets/Resources/users";
         int fileCount = Directory.GetFiles(folderPath, "*.json").Length;
         return fileCount;
     }
@@ -52,8 +58,8 @@ public class CreateTable2 : MonoBehaviour
     private void CreateRow2(int numberOfQuads)
     {
         Vector3 position = new Vector3(0, 0, 0);
-        Vector3 localPosition = new Vector3(0, 0, 5);
-        Quaternion rotation = Quaternion.Euler(90f, 0f, -90f);
+        Vector3 localPosition = new Vector3(5, 0, 0);
+        Quaternion rotation = Quaternion.Euler(90f, -90f, 0f);
 
         GameObject rowObject = new GameObject("QuadRow");
         rowObject.transform.parent = transform;
@@ -96,7 +102,7 @@ public class CreateTable2 : MonoBehaviour
         {
             position.x = (float)((i * (INTERVAL)));
             CreateQuad(position, localPosition, rotation, rowObject.transform);
-            CreateTextMeshProObject("task47", new Vector3(0.08f, (float)(4.95f - (i * (INTERVAL))), -1.97f), Quaternion.Euler(0f, -90f, 0f));
+            CreateTextMeshProObject("task47", new Vector3(0.08f, (float)(4.95f - (i * (INTERVAL))), -1.97f), Quaternion.Euler(0f, -90f, 0f), rowObject.transform);
         }
     }
 
@@ -114,7 +120,7 @@ public class CreateTable2 : MonoBehaviour
         {
             position.x = (float)((i * (INTERVAL)));
             CreateQuad(position, localPosition, rotation, rowObject.transform);
-            CreateTextMeshProObject("110590015", new Vector3((float)(0.05 + (i * (INTERVAL))), 0, -1.87f), Quaternion.Euler(90f, 0f, 90f));
+            CreateTextMeshProObject("110590015", new Vector3((float)(0.05 + (i * (INTERVAL))), 0, -1.87f), Quaternion.Euler(90f, 0f, 90f), rowObject.transform);
         }
     }
 
@@ -132,7 +138,7 @@ public class CreateTable2 : MonoBehaviour
         {
             position.x = (float)((i * (INTERVAL)));
             CreateQuad(position, localPosition, rotation, rowObject.transform);
-            CreateTextMeshProObject("1", new Vector3(-0.03f, 5.44f, (float)(-1.36f + (i * (INTERVAL)))), Quaternion.Euler(0f, -90f, 0f));
+            CreateTextMeshProObject("1", new Vector3(-0.03f, 5.44f, (float)(-1.36f + (i * (INTERVAL)))), Quaternion.Euler(0f, -90f, 0f), rowObject.transform);
         }
     }
     private void CreateQuad(Vector3 position, Vector3 localPosition, Quaternion rotation, Transform parentTransform)
@@ -187,7 +193,7 @@ public class CreateTable2 : MonoBehaviour
         meshFilter.mesh = mesh;
     }
 
-    void CreateTextMeshProObject(string text, Vector3 position, Quaternion rotation)
+    void CreateTextMeshProObject(string text, Vector3 position, Quaternion rotation, Transform parentTransform)
     {
         if (text == null)
         {
@@ -195,6 +201,7 @@ public class CreateTable2 : MonoBehaviour
         }
 
         GameObject textMeshProObject = new GameObject("TextMeshProObject");
+        textMeshProObject.transform.parent = parentTransform;
         textMeshProObject.transform.position = position;
         Color color = Color.white;
         float fontSize = 3f;
